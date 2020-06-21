@@ -5,6 +5,10 @@ import java.util.Date;
 import java.util.List;
 
 import com.application.se2.misc.IDGenerator;
+import com.application.se2.misc.Logger;
+import org.apache.log4j.FileAppender;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.SimpleLayout;
 
 
 /**
@@ -15,6 +19,7 @@ import com.application.se2.misc.IDGenerator;
  */
 public class Customer implements Entity {
 	private static final long serialVersionUID = 1L;
+
 
 	private static final IDGenerator CustomerIdGenerator
 		= new IDGenerator( "K", IDGenerator.IDTYPE.NUM, 6 );
@@ -45,6 +50,7 @@ public class Customer implements Entity {
 	 */
 	public Customer( final String name ) {
 		this( null, name );
+
 	}
 
 	/**

@@ -4,6 +4,7 @@
 .idea
 target
 test
+log
 data*
 /log*
 *.tar

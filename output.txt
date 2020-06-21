@@ -1,0 +1,143 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = https://github.com/NelioNeeze/se2-application.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+commit 55fdfe4f0df19b9b2be9012bffe62f85fd2fbb3e
+Author: s78769 <V4hB8TJd3>
+Date:   Sat Jun 20 15:46:21 2020 +0200
+
+    Log4j added
+
+ pom.xml                                            | 213 +++++++++++----------
+ se2-application.iml                                |  67 +++++++
+ .../java/com/application/se2/misc/LoggerImpl.java  |  34 ++--
+ 3 files changed, 198 insertions(+), 116 deletions(-)
+
+commit 02ff3a7d256fbe9bee339180d0a19e28a76c636d
+Author: s78769 <V4hB8TJd3>
+Date:   Sat Jun 20 12:40:48 2020 +0200
+
+    Unchanged Project
+
+ .gitignore                                         |   9 +
+ README.md                                          |  43 +++
+ pom.xml                                            | 107 +++++++
+ src/main/java/com/application/se2/AppBuilder.java  | 200 ++++++++++++
+ .../java/com/application/se2/AppConfigurator.java  | 262 ++++++++++++++++
+ src/main/java/com/application/se2/AppRunner.java   | 103 +++++++
+ src/main/java/com/application/se2/Application.java | 232 ++++++++++++++
+ .../com/application/se2/components/AppComp.java    |  58 ++++
+ .../se2/components/ArticleCatalogComp.java         |  57 ++++
+ .../application/se2/components/BuilderIntf.java    |  19 ++
+ .../application/se2/components/CalculatorComp.java |  74 +++++
+ .../application/se2/components/ComponentBase.java  | 148 +++++++++
+ .../application/se2/components/ComponentIntf.java  | 122 ++++++++
+ .../se2/components/CustomerManagerComp.java        |  57 ++++
+ .../com/application/se2/components/RunnerIntf.java |  41 +++
+ src/main/java/com/application/se2/fxgui/App.css    |  17 ++
+ src/main/java/com/application/se2/fxgui/App.fxml   |  25 ++
+ .../application/se2/fxgui/AppFXMLController.java   |  64 ++++
+ .../java/com/application/se2/fxgui/ArticleView.css |  33 ++
+ .../java/com/application/se2/fxgui/Calculator.css  |  52 ++++
+ .../java/com/application/se2/fxgui/Calculator.fxml |  90 ++++++
+ .../se2/fxgui/CalculatorFXMLController.java        | 170 +++++++++++
+ .../com/application/se2/fxgui/CustomerView.css     | 102 +++++++
+ .../java/com/application/se2/fxgui/FXBuilder.java  |  65 ++++
+ .../application/se2/fxgui/FXControllerIntf.java    |  23 ++
+ .../com/application/se2/fxgui/FXInterface.java     |  40 +++
+ .../java/com/application/se2/fxgui/FXRunner.java   | 337 +++++++++++++++++++++
+ .../application/se2/fxgui/TableColumnProperty.java |  75 +++++
+ .../java/com/application/se2/fxgui/TableItem.java  |  76 +++++
+ .../java/com/application/se2/fxgui/TableView.css   |  61 ++++
+ .../java/com/application/se2/fxgui/TableView.fxml  |  51 ++++
+ .../com/application/se2/fxgui/TableViewConfig.java | 119 ++++++++
+ .../se2/fxgui/TableViewFXMLController.java         | 218 +++++++++++++
+ .../com/application/se2/fxgui/TableViewImpl.java   | 210 +++++++++++++
+ .../com/application/se2/fxgui/TableViewPopUp.java  | 163 ++++++++++
+ .../application/se2/fxgui/TableViewUpdateForm.java | 167 ++++++++++
+ .../com/application/se2/logic/ArticleCatalog.java  | 191 ++++++++++++
+ .../com/application/se2/logic/CalculatorLogic.java | 145 +++++++++
+ .../com/application/se2/logic/CustomerManager.java | 237 +++++++++++++++
+ .../java/com/application/se2/misc/Callback.java    |  27 ++
+ .../com/application/se2/misc/EntityProperty.java   | 244 +++++++++++++++
+ .../se2/misc/EntityPropertyAccessor.java           | 152 ++++++++++
+ .../se2/misc/EntityPropertyUpdateSet.java          | 121 ++++++++
+ .../java/com/application/se2/misc/IDGenerator.java |  73 +++++
+ src/main/java/com/application/se2/misc/Logger.java |  49 +++
+ .../java/com/application/se2/misc/LoggerImpl.java  | 141 +++++++++
+ .../java/com/application/se2/misc/Snippets.java    | 167 ++++++++++
+ .../com/application/se2/misc/StringProperty.java   |  24 ++
+ .../java/com/application/se2/misc/Traceable.java   |  97 ++++++
+ .../java/com/application/se2/model/Article.java    | 103 +++++++
+ .../java/com/application/se2/model/Customer.java   | 224 ++++++++++++++
+ .../java/com/application/se2/model/Entity.java     |  34 +++
+ src/main/java/com/application/se2/model/Note.java  | 107 +++++++
+ .../application/se2/repository/CrudRepository.java | 119 ++++++++
+ .../se2/repository/RepositoryBuilder.java          | 271 +++++++++++++++++
+ .../application/se2/repository/RepositoryIntf.java | 147 +++++++++
+ .../se2/repository/RepositoryRunner.java           | 102 +++++++
+ .../se2/repository/SimpleRepositoryImpl.java       | 287 ++++++++++++++++++
+ 58 files changed, 6752 insertions(+)
+.gitignore
+README.md
+pom.xml
+se2-application.iml
+src/main/java/com/application/se2/AppBuilder.java
+src/main/java/com/application/se2/AppConfigurator.java
+src/main/java/com/application/se2/AppRunner.java
+src/main/java/com/application/se2/Application.java
+src/main/java/com/application/se2/components/AppComp.java
+src/main/java/com/application/se2/components/ArticleCatalogComp.java
+src/main/java/com/application/se2/components/BuilderIntf.java
+src/main/java/com/application/se2/components/CalculatorComp.java
+src/main/java/com/application/se2/components/ComponentBase.java
+src/main/java/com/application/se2/components/ComponentIntf.java
+src/main/java/com/application/se2/components/CustomerManagerComp.java
+src/main/java/com/application/se2/components/RunnerIntf.java
+src/main/java/com/application/se2/fxgui/App.css
+src/main/java/com/application/se2/fxgui/App.fxml
+src/main/java/com/application/se2/fxgui/AppFXMLController.java
+src/main/java/com/application/se2/fxgui/ArticleView.css
+src/main/java/com/application/se2/fxgui/Calculator.css
+src/main/java/com/application/se2/fxgui/Calculator.fxml
+src/main/java/com/application/se2/fxgui/CalculatorFXMLController.java
+src/main/java/com/application/se2/fxgui/CustomerView.css
+src/main/java/com/application/se2/fxgui/FXBuilder.java
+src/main/java/com/application/se2/fxgui/FXControllerIntf.java
+src/main/java/com/application/se2/fxgui/FXInterface.java
+src/main/java/com/application/se2/fxgui/FXRunner.java
+src/main/java/com/application/se2/fxgui/TableColumnProperty.java
+src/main/java/com/application/se2/fxgui/TableItem.java
+src/main/java/com/application/se2/fxgui/TableView.css
+src/main/java/com/application/se2/fxgui/TableView.fxml
+src/main/java/com/application/se2/fxgui/TableViewConfig.java
+src/main/java/com/application/se2/fxgui/TableViewFXMLController.java
+src/main/java/com/application/se2/fxgui/TableViewImpl.java
+src/main/java/com/application/se2/fxgui/TableViewPopUp.java
+src/main/java/com/application/se2/fxgui/TableViewUpdateForm.java
+src/main/java/com/application/se2/logic/ArticleCatalog.java
+src/main/java/com/application/se2/logic/CalculatorLogic.java
+src/main/java/com/application/se2/logic/CustomerManager.java
+src/main/java/com/application/se2/misc/Callback.java
+src/main/java/com/application/se2/misc/EntityProperty.java
+src/main/java/com/application/se2/misc/EntityPropertyAccessor.java
+src/main/java/com/application/se2/misc/EntityPropertyUpdateSet.java
+src/main/java/com/application/se2/misc/IDGenerator.java
+src/main/java/com/application/se2/misc/Logger.java
+src/main/java/com/application/se2/misc/LoggerImpl.java
+src/main/java/com/application/se2/misc/Snippets.java
+src/main/java/com/application/se2/misc/StringProperty.java
+src/main/java/com/application/se2/misc/Traceable.java
+src/main/java/com/application/se2/model/Article.java
+src/main/java/com/application/se2/model/Customer.java
+src/main/java/com/application/se2/model/Entity.java
+src/main/java/com/application/se2/model/Note.java
+src/main/java/com/application/se2/repository/CrudRepository.java
+src/main/java/com/application/se2/repository/RepositoryBuilder.java
+src/main/java/com/application/se2/repository/RepositoryIntf.java
+src/main/java/com/application/se2/repository/RepositoryRunner.java
+src/main/java/com/application/se2/repository/SimpleRepositoryImpl.java

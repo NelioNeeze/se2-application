@@ -5,7 +5,6 @@ import static com.application.se2.AppConfigurator.LoggerTopics;
 
 import com.application.se2.model.Entity;
 import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Level;
 import org.apache.log4j.SimpleLayout;
 
 
@@ -28,11 +27,6 @@ class LoggerImpl implements Logger {
 	private LoggerImpl( final Class<?> clazz ) {
 		//realLogger = java.util.logging.Logger.getLogger( clazz.getName() );
 		realLogger = org.apache.log4j.Logger.getLogger( clazz );
-		SimpleLayout layout = new SimpleLayout();
-		ConsoleAppender consoleAppender = new ConsoleAppender( layout );
-		this.realLogger.addAppender( consoleAppender );
-		// ALL | DEBUG | INFO | WARN | ERROR | FATAL | OFF:
-		this.realLogger.setLevel( Level.ALL );
 	}
 
 	/**

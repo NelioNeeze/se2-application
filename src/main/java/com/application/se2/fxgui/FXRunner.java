@@ -29,7 +29,7 @@ import javafx.stage.WindowEvent;
 
 /**
  * JavaFX/GUI Runner component as local component singleton class.
- * 
+ *
  * @author sgra64
  *
  */

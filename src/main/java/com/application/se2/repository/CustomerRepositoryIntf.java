@@ -1,5 +1,6 @@
 package com.application.se2.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.repository.CrudRepository;
@@ -41,6 +42,10 @@ public interface CustomerRepositoryIntf extends CrudRepository<Customer, String>
 	 * /
 	public Iterable<Customer> findByName( String regEx, long limit );
 */
+
+	List<Customer> findByName( String name );
+	List<Customer> findByNameStartingWith(String match );
+ 	List<Customer> findByNameContaining( String match );
 
 	/*
 	 * All interface methods are inherited from CrudRepository, see:

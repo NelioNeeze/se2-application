@@ -122,7 +122,7 @@ class TableViewImpl {
 
 								if( btn != null ) {
 									btn.setText( button_label != null?
-										button_label.replaceAll( "#", String.valueOf( nListSize ) )
+											button_label.replaceAll( "#", String.valueOf( nListSize ) )
 											: tableColProp.getLabel() + ": +" + n );
 
 									btn.setOnMouseClicked( event -> {
@@ -139,7 +139,7 @@ class TableViewImpl {
 										String styleId = tableColProp.getCssId();
 
 										popupList = new TableViewPopUp(
-											rowIdx, colIdx, fxTableItem, prop, logicIntf, popUpConfig, propertyList, styleId, styleSheets
+												rowIdx, colIdx, fxTableItem, prop, logicIntf, popUpConfig, propertyList, styleId, styleSheets
 										);
 
 										openPopUps.add( popupList );	// add to set of open popups (no duplicates)

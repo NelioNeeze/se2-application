@@ -86,7 +86,7 @@ public class RepositoryBuilder implements BuilderIntf {
 
 		if( customerRepository.count() == 0 ) {
 			customerRepository.saveAll( buildCustomerData_phase1() );
-			//buildCustomerData_phase2( customerRepository );
+			buildCustomerData_phase2( customerRepository );
 		}
 
 		if( articleRepository.count() == 0 ) {
@@ -192,40 +192,52 @@ public class RepositoryBuilder implements BuilderIntf {
 	}
 
 
-	private void buildCustomerData_phase2( RepositoryIntf<Customer> customerRepository ) {
+	private void buildCustomerData_phase2( CustomerRepositoryIntf customerRepository ) {
 
-		for( Customer c2 : customerRepository.findByName( ".* S.*", Long.MAX_VALUE ) ) {
+		for( Customer c2 : customerRepository.findByName( ".* S.*" ) ) {
 			System.out.println( " --found--> " + c2.getName() );
 			c2.setStatus( Status.TERM );
 			c2.addNote( "Kunde wurde terminiert." );
 		}
 
-		customerRepository.findByName( "Matteo" ).ifPresent( c2 -> {
-			c2.addContact( "matteo@yahoo.com" ).addContact( "max88@gmail.com" ).addContact( "030 3849-5039" ).addContact( "+49 170 9369224" )
+		List<Customer> c2 = customerRepository.findByName( "Matteo" );
+		if( !c2.isEmpty() ) {
+			Customer customer = c2.get(0);
+			customer.addContact( "matteo@yahoo.com" ).addContact( "max88@gmail.com" ).addContact( "030 3849-5039" ).addContact( "+49 170 9369224" )
 					.addNote( "Kunde moechte Rechnung per Post erhalten." )
 					.addNote( "Kunde hat Rechnung bezahlt." );
-		});
+			customerRepository.save( customer );
+		}
 
-		customerRepository.findByName( "Tom Wolf" ).ifPresent( c2 -> {
-			c2.addContact( "majortom@gmail.com" )
+		c2 = customerRepository.findByName( "Tom Wolf" );
+		if( !c2.isEmpty() ) {
+			Customer customer = c2.get(0);
+			customer.addContact( "majortom@gmail.com" )
 					.addContact( "+491582341346" );
-		});
+			customerRepository.save( customer );
+		}
 
-		customerRepository.findByName( "Emilia Hartmann" ).ifPresent( c2 -> {
-			c2.addContact( "majortom@gmail.com" )
+		c2 = customerRepository.findByName( "Emilia Hartmann" );
+		if( !c2.isEmpty() ) {
+			Customer customer = c2.get(0);
+			customer.addContact( "majortom@gmail.com" )
 					.addContact( "+491582341346" )
 					.setStatus( Customer.Status.SUSP )
 					.addNote( "Kunde hat Rechnung nicht bezahlt." )
 					.addNote( "Erste Mahnung." )
 					.addNote( "Zweite Mahnung." );
-		});
+			customerRepository.save( customer );
+		}
 
-		customerRepository.findByName( "Emily Meier" ).ifPresent( c2 -> {
-			c2.addContact( "eme@yahoo.com" )
+		c2 = customerRepository.findByName( "Emily Meier" );
+		if( !c2.isEmpty() ) {
+			Customer customer = c2.get(0);
+			customer.addContact( "eme@yahoo.com" )
 					.addContact( "meyer244@gmail.com" )
 					.addContact( "+49170482395" )
 					.setStatus( Customer.Status.SUSP );
-		});
+			customerRepository.save( customer );
+		}
 
 		customerRepository.saveAll( customerRepository.findAll() );
 	}

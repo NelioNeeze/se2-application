@@ -6,6 +6,9 @@ import java.util.Date;
 
 import com.application.se2.misc.EntityProperty;
 
+import javax.persistence.*;
+import javax.persistence.Entity;
+
 
 /**
  * Class Note represents a short text line to store short hints or comments
@@ -16,14 +19,30 @@ import com.application.se2.misc.EntityProperty;
  * 
  * @author sgra64
  */
+
+@Entity
+@Table(name = "Notes")
 public class Note implements Serializable {
+
+	@Id
+	@GeneratedValue(strategy= GenerationType.AUTO)
+	@Column(name ="id")
+	private long id;
+
+	@ManyToOne(
+			fetch = FetchType.LAZY
+	)
+	private Customer customer;
+
 	private static final long serialVersionUID = 1L;
 
 	private static final String FieldSeparator = ";; ";
 	private static long lastTimeStamp = 0L;
 
+	@Column(name ="time")
 	private Date timeStamp = null;		// TimeStamp part of Note.
 
+	@Column(name ="text")
 	private String noteText = null;		// Text part of Note.
 
 
@@ -71,6 +90,16 @@ public class Note implements Serializable {
 	public void setText( String text ) {
 		this.noteText = text;
 	}
+
+
+	public Customer getCustomer() {
+		return customer;
+	}
+
+	public void setCustomer( Customer customer ) {
+		this.customer = customer;
+	}
+
 
 
 	/**

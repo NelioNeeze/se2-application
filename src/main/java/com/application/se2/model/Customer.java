@@ -4,12 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.Column;
-import javax.persistence.Convert;
+import javax.persistence.*;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.application.se2.misc.IDGenerator;
 
@@ -46,8 +42,12 @@ public class Customer implements com.application.se2.model.Entity {
 	@Convert(converter = com.application.se2.model.customserializer.StringListConverter.class)		// map List<String> to single, ';'-separated String
 	private final List<String>contacts;
 
-	@Transient
-	private final List<Note>notes;
+	@OneToMany(
+			fetch = FetchType.EAGER,
+			cascade = CascadeType.ALL,
+			mappedBy = "customer"
+	)
+	private final List<Note> notes;
 
 	//@Transient
 	private final Date created;
@@ -189,6 +189,7 @@ public class Customer implements com.application.se2.model.Entity {
 	public Customer addNote( final String noteStr ) {
 		if( noteStr != null && noteStr.length() > 0 ) {
 			Note note = new Note( noteStr.trim() );
+			note.setCustomer( this );
 			notes.add( note );
 		}
 		return this;

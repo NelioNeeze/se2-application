@@ -194,13 +194,7 @@ public class RepositoryBuilder implements BuilderIntf {
 
 	private void buildCustomerData_phase2( CustomerRepositoryIntf customerRepository ) {
 
-		for( Customer c2 : customerRepository.findByName( ".* S.*" ) ) {
-			System.out.println( " --found--> " + c2.getName() );
-			c2.setStatus( Status.TERM );
-			c2.addNote( "Kunde wurde terminiert." );
-		}
-
-		List<Customer> c2 = customerRepository.findByName( "Matteo" );
+		List<Customer> c2 = customerRepository.findByNameStartingWith( "Matteo" );
 		if( !c2.isEmpty() ) {
 			Customer customer = c2.get(0);
 			customer.addContact( "matteo@yahoo.com" ).addContact( "max88@gmail.com" ).addContact( "030 3849-5039" ).addContact( "+49 170 9369224" )
@@ -217,7 +211,7 @@ public class RepositoryBuilder implements BuilderIntf {
 			customerRepository.save( customer );
 		}
 
-		c2 = customerRepository.findByName( "Emilia Hartmann" );
+		c2 = customerRepository.findByNameContaining( "Emilia Hartmann" );
 		if( !c2.isEmpty() ) {
 			Customer customer = c2.get(0);
 			customer.addContact( "majortom@gmail.com" )
@@ -229,7 +223,7 @@ public class RepositoryBuilder implements BuilderIntf {
 			customerRepository.save( customer );
 		}
 
-		c2 = customerRepository.findByName( "Emily Meier" );
+		c2 = customerRepository.findByNameContaining( "Emily Meier" );
 		if( !c2.isEmpty() ) {
 			Customer customer = c2.get(0);
 			customer.addContact( "eme@yahoo.com" )

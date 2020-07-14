@@ -4,54 +4,66 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.application.se2.misc.IDGenerator;
+import javax.persistence.Column;
+import javax.persistence.Convert;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.application.se2.misc.IDGenerator;
 
 
 /**
  * Customer is an Entity-class that represents a customer.
- * 
+ *
  * @author sgra64
- * 
+ *
  */
 
-
-@JsonSerialize(using = CustomerJSONSerializer.class)
-@JsonDeserialize(using = CustomerJSONDeserializer.class)
-
-public class Customer implements Entity {
+@Entity
+@Table(name = "Customer")
+public class Customer implements com.application.se2.model.Entity {
 	private static final long serialVersionUID = 1L;
 
 	private static final IDGenerator CustomerIdGenerator
-		= new IDGenerator( "K", IDGenerator.IDTYPE.NUM, 6 );
+			= new IDGenerator( "K", IDGenerator.IDTYPE.NUM, 6 );
 
 	/*
 	 * Entity Properties.
 	 */
+	@Id
+	@Column(name ="id")
 	private final String id;
 
+	@Column(name ="name")
 	private String name;
 
+	@Column(name ="address")
 	private String address;
 
+	@Column(name="contacts")
+	@Convert(converter = com.application.se2.model.customserializer.StringListConverter.class)		// map List<String> to single, ';'-separated String
 	private final List<String>contacts;
 
+	@Transient
 	private final List<Note>notes;
 
+	//@Transient
 	private final Date created;
 
 	public enum Status { ACT, SUSP, TERM };
 	//
+	@Column(name="status")
 	private Status status;
 
 
 	/**
-	 * Private default constructor (required by JSON deserialization).
+	 * Default constructor needed by JSON deserialization and Hibernate (private
+	 * is sufficient). Public default constructor needed by Hibernate/JPA access.
+	 * Otherwise Hibernate Error: HHH000142: Bytecode enhancement failed).
 	 */
-	@SuppressWarnings("unused")
-	private Customer() {
+	public Customer() {
 		this( null );
 	}
 
@@ -60,7 +72,7 @@ public class Customer implements Entity {
 	 * @param name Customer name.
 	 */
 	public Customer( final String name ) {
-		this( null, name );
+		this( null, name, null );
 	}
 
 
@@ -69,30 +81,21 @@ public class Customer implements Entity {
 	 * @param id if null is passed as id, an ID will be generated.
 	 * @param name Customer name.
 	 */
-	public Customer( final String id, final String name ) {
+	public Customer( final String id, final String name, final Date created ) {
 		this.id = id == null? CustomerIdGenerator.nextId() : id;
 		setName( name );
 		this.address = "";
 		this.contacts = new ArrayList<String>();
 		this.notes = new ArrayList<Note>();
-		this.created = new Date();
-		this.status = Status.ACT;
-	}
-
-	public Customer( final String id, final String name, Date created ) {
-		this.id = id == null? CustomerIdGenerator.nextId() : id;
-		setName( name );
-		this.address = "";
-		this.contacts = new ArrayList<String>();
-		this.notes = new ArrayList<Note>();
-		this.created = created;
+		//this.created = new Date();
+		this.created = created==null? new Date() : created;
 		this.status = Status.ACT;
 	}
 
 
 	/**
 	 * Return Customer id.
-	 * 
+	 *
 	 * @return Customer id.
 	 */
 	@Override
@@ -103,7 +106,7 @@ public class Customer implements Entity {
 
 	/**
 	 * Return Customer name.
-	 * 
+	 *
 	 * @return Customer name.
 	 */
 	@Override
@@ -113,7 +116,7 @@ public class Customer implements Entity {
 
 	/**
 	 * Set Customer name.
-	 * 
+	 *
 	 * @param name new Customer name.
 	 * @return self reference.
 	 */
@@ -126,7 +129,7 @@ public class Customer implements Entity {
 
 	/**
 	 * Return Customer address.
-	 * 
+	 *
 	 * @return Customer address.
 	 */
 	public String getAddress() {
@@ -135,7 +138,7 @@ public class Customer implements Entity {
 
 	/**
 	 * Set Customer address.
-	 * 
+	 *
 	 * @param new Customer address.
 	 * @return self reference.
 	 */
@@ -147,7 +150,7 @@ public class Customer implements Entity {
 
 	/**
 	 * Get Customer contacts.
-	 * 
+	 *
 	 * @return Customer contacts.
 	 */
 	public List<String>getContacts() {
@@ -156,7 +159,7 @@ public class Customer implements Entity {
 
 	/**
 	 * Add Customer contact.
-	 * 
+	 *
 	 * @param contact new Customer contact.
 	 * @return self reference.
 	 */
@@ -170,7 +173,7 @@ public class Customer implements Entity {
 
 	/**
 	 * Get Customer notes, which are short, time-stamped records.
-	 * 
+	 *
 	 * @return Customer notes.
 	 */
 	public List<Note>getNotes() {
@@ -179,7 +182,7 @@ public class Customer implements Entity {
 
 	/**
 	 * Add Customer note.
-	 * 
+	 *
 	 * @param noteStr short, time-stamped record.
 	 * @return self reference.
 	 */
@@ -194,7 +197,7 @@ public class Customer implements Entity {
 
 	/**
 	 * Get creation date of this Customer instance.
-	 * 
+	 *
 	 * @return creation date of this Customer instance.
 	 */
 	public Date getCreationDate() {
@@ -204,7 +207,7 @@ public class Customer implements Entity {
 
 	/**
 	 * Get Customer status.
-	 * 
+	 *
 	 * @return Customer status.
 	 */
 	public Status getStatus() {
@@ -213,7 +216,7 @@ public class Customer implements Entity {
 
 	/**
 	 * Set Customer status.
-	 * 
+	 *
 	 * @param status new Customer status.
 	 * @return self reference.
 	 */
